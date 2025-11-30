@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="alert alert-success" *ngIf='message'>{{message}}</div>
+    <div class="card mt-5">
+        <div class="card-header">
+            <h1>📋 Incident Manager</h1>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Created</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let incidencia of incidencias">
+                        <td>{{incidencia.id}}</td>
+                        <td>{{incidencia.titulo}}</td>
+                        <td>{{incidencia.descripcion | slice:0:50}}{{incidencia.descripcion?.length > 50 ? '...' : ''}}
+                        </td>
+                        <td><span [ngClass]="getEstadoClass(incidencia.estado)">{{incidencia.estado}}</span></td>
+                        <td><span [ngClass]="getPrioridadClass(incidencia.prioridad)">{{incidencia.prioridad}}</span>
+                        </td>
+                        <td>{{incidencia.fechaCreacion | date:'short'}}</td>
+                        <td>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-success active btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked
+                                        (click)="updateIncidencia(incidencia.id)"> Update
+                                </label>
+                                <label class="btn btn-danger btn-sm">
+                                    <input type="radio" name="options" id="option2" autocomplete="off"
+                                        (click)="deleteIncidencia(incidencia.id)"> Delete
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <button (click)="addIncidencia()" class="btn btn-primary float-right">Add New Incident</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .badge {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .badge-danger {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .badge-warning {
+        background-color: #f59e0b;
+        color: white;
+    }
+
+    .badge-success {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .badge-secondary {
+        background-color: #6b7280;
+        color: white;
+    }
+</style>

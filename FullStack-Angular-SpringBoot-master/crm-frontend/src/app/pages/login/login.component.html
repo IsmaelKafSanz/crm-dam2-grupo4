@@ -1,0 +1,21 @@
+<div class="login-card">
+    <mat-card>
+      <h2>Iniciar sesión</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <mat-form-field appearance="fill" class="full">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+  
+        <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+      </form>
+    </mat-card>
+  </div>
+  

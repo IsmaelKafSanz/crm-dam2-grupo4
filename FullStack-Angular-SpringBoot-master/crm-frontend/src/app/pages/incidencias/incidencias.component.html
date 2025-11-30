@@ -1,0 +1,46 @@
+<h2>Gestión de Incidencias</h2>
+
+<form [formGroup]="incidenciaForm" (ngSubmit)="guardar()">
+
+  <input placeholder="Título" formControlName="titulo">
+  <textarea placeholder="Descripción" formControlName="descripcion"></textarea>
+
+  <select formControlName="estado">
+    <option>Pendiente</option>
+    <option>En proceso</option>
+    <option>Resuelta</option>
+  </select>
+
+  <button type="submit">
+    {{ editando ? 'Actualizar' : 'Crear' }}
+  </button>
+
+  <button type="button" *ngIf="editando" (click)="cancelarEdicion()">
+    Cancelar
+  </button>
+
+</form>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Título</th><th>Descripción</th><th>Estado</th><th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let i of incidencias">
+      <td>{{ i.titulo }}</td>
+      <td>{{ i.descripcion }}</td>
+      <td>{{ i.estado }}</td>
+      <td>
+        <button (click)="editar(i)">Editar</button>
+        <button (click)="eliminar(i.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

@@ -1,0 +1,63 @@
+<h1>📝 Incident Form</h1>
+
+<div class="container">
+    <div class="alert alert-warning" *ngIf="incidenciaForm.dirty && incidenciaForm.invalid">Please, type valid inputs!
+    </div>
+    <div class="alert alert-warning" *ngIf="incidenciaForm.dirty && titulo?.invalid">Title is required (min 5
+        characters)!</div>
+
+    <form (ngSubmit)="!incidenciaForm.invalid && onSave()" #incidenciaForm="ngForm">
+        <fieldset class="form-group">
+            <label>Title *</label>
+            <input type="text" #titulo="ngModel" [(ngModel)]="incidencia.titulo" class="form-control" name="titulo"
+                required="required" minlength="5" placeholder="Enter incident title">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="incidencia.descripcion" class="form-control" name="descripcion" rows="4"
+                placeholder="Describe the incident in detail"></textarea>
+        </fieldset>
+
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset class="form-group">
+                    <label>Status *</label>
+                    <select [(ngModel)]="incidencia.estado" class="form-control" name="estado" required>
+                        <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+                    </select>
+                </fieldset>
+            </div>
+
+            <div class="col-md-6">
+                <fieldset class="form-group">
+                    <label>Priority *</label>
+                    <select [(ngModel)]="incidencia.prioridad" class="form-control" name="prioridad" required>
+                        <option *ngFor="let prioridad of prioridades" [value]="prioridad">{{prioridad}}</option>
+                    </select>
+                </fieldset>
+            </div>
+        </div>
+
+        <fieldset class="form-group">
+            <label>Customer ID (optional)</label>
+            <input type="number" [(ngModel)]="incidencia.customerId" class="form-control" name="customerId"
+                placeholder="Enter customer ID if related">
+        </fieldset>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" [disabled]="incidenciaForm.invalid">
+                Save
+            </button>
+            <button type="button" class="btn btn-secondary ml-2" routerLink="/incidencias">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .ml-2 {
+        margin-left: 0.5rem;
+    }
+</style>

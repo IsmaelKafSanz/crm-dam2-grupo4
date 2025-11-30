@@ -1,0 +1,4 @@
+.login-card { display:flex; justify-content:center; margin-top:60px; }
+mat-card { width: 360px; padding:20px; }
+.full { width:100%; }
+.error { color: red; margin-top:10px; }

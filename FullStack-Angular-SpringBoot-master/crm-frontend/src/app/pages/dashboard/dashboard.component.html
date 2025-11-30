@@ -1,0 +1,21 @@
+<h2>Dashboard</h2>
+
+<div class="charts-grid">
+  <div class="card">
+    <h3>Incidencias por estado</h3>
+    <canvas baseChart
+      [data]="barChartData"
+      [type]="barChartType"
+      [options]="barChartOptions">
+    </canvas>
+  </div>
+
+  <div class="card">
+    <h3>Clientes (por tipo ejemplo)</h3>
+    <canvas baseChart
+      [data]="pieChartData"
+      [type]="pieChartType">
+    </canvas>
+  </div>
+</div>
+

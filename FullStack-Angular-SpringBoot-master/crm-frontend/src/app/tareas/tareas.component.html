@@ -1,0 +1,143 @@
+<div class="container-fluid kanban-container">
+    <div class="kanban-header">
+        <h1 class="kanban-title">📋 Kanban Board - Task Manager</h1>
+        <button class="add-task-btn" (click)="toggleNewTaskForm()">
+            ➕ Add New Task
+        </button>
+    </div>
+
+    <!-- Modal/Formulario para nueva tarea -->
+    <div class="task-form-modal" *ngIf="showNewTaskForm">
+        <div class="task-form-content">
+            <div class="form-header">
+                <h2>✨ Create New Task</h2>
+                <button class="close-btn" (click)="cancelarNuevaTarea()">✕</button>
+            </div>
+            <form #taskForm="ngForm" (ngSubmit)="guardarNuevaTarea()">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" [(ngModel)]="nuevaTarea.titulo" name="titulo" class="form-control"
+                        placeholder="Enter task title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea [(ngModel)]="nuevaTarea.descripcion" name="descripcion" class="form-control" rows="3"
+                        placeholder="Enter task description"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Priority</label>
+                        <select [(ngModel)]="nuevaTarea.prioridad" name="prioridad" class="form-control">
+                            <option value="Baja">Low</option>
+                            <option value="Media">Medium</option>
+                            <option value="Alta">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group half">
+                        <label>Assigned To</label>
+                        <input type="text" [(ngModel)]="nuevaTarea.asignadoA" name="asignadoA" class="form-control"
+                            placeholder="Person name">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" (click)="cancelarNuevaTarea()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-save" [disabled]="!taskForm.form.valid">
+                        💾 Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="kanban-board">
+        <!-- Columna PENDIENTES -->
+        <div class="kanban-column pendiente-column">
+            <div class="column-header">
+                <h3>📌 Pending</h3>
+                <span class="task-count">{{tareasPendientes.length}}</span>
+            </div>
+            <div class="tasks-container">
+                <div class="task-card" *ngFor="let tarea of tareasPendientes"
+                    [ngClass]="getPrioridadClass(tarea.prioridad)">
+                    <div class="task-header">
+                        <h4>{{tarea.titulo}}</h4>
+                        <button class="delete-btn" (click)="deleteTarea(tarea.id)">✕</button>
+                    </div>
+                    <p class="task-description">{{tarea.descripcion}}</p>
+                    <div class="task-footer">
+                        <span class="prioridad-badge">{{tarea.prioridad}}</span>
+                        <span class="assignee" *ngIf="tarea.asignadoA">👤 {{tarea.asignadoA}}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="move-btn" (click)="moverTarea(tarea, 'EN_CURSO')">
+                            Start →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna EN CURSO -->
+        <div class="kanban-column encurso-column">
+            <div class="column-header">
+                <h3>🚀 In Progress</h3>
+                <span class="task-count">{{tareasEnCurso.length}}</span>
+            </div>
+            <div class="tasks-container">
+                <div class="task-card" *ngFor="let tarea of tareasEnCurso"
+                    [ngClass]="getPrioridadClass(tarea.prioridad)">
+                    <div class="task-header">
+                        <h4>{{tarea.titulo}}</h4>
+                        <button class="delete-btn" (click)="deleteTarea(tarea.id)">✕</button>
+                    </div>
+                    <p class="task-description">{{tarea.descripcion}}</p>
+                    <div class="task-footer">
+                        <span class="prioridad-badge">{{tarea.prioridad}}</span>
+                        <span class="assignee" *ngIf="tarea.asignadoA">👤 {{tarea.asignadoA}}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="move-btn back-btn" (click)="moverTarea(tarea, 'PENDIENTE')">
+                            ← Back
+                        </button>
+                        <button class="move-btn complete-btn" (click)="moverTarea(tarea, 'COMPLETADA')">
+                            Complete ✓
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna COMPLETADAS -->
+        <div class="kanban-column completada-column">
+            <div class="column-header">
+                <h3>✅ Completed</h3>
+                <span class="task-count">{{tareasCompletadas.length}}</span>
+            </div>
+            <div class="tasks-container">
+                <div class="task-card" *ngFor="let tarea of tareasCompletadas"
+                    [ngClass]="getPrioridadClass(tarea.prioridad)">
+                    <div class="task-header">
+                        <h4>{{tarea.titulo}}</h4>
+                        <button class="delete-btn" (click)="deleteTarea(tarea.id)">✕</button>
+                    </div>
+                    <p class="task-description">{{tarea.descripcion}}</p>
+                    <div class="task-footer">
+                        <span class="prioridad-badge">{{tarea.prioridad}}</span>
+                        <span class="assignee" *ngIf="tarea.asignadoA">👤 {{tarea.asignadoA}}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="move-btn reopen-btn" (click)="moverTarea(tarea, 'EN_CURSO')">
+                            ← Reopen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

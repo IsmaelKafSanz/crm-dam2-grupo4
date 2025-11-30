@@ -1,0 +1,43 @@
+<h2>Gestión de Clientes</h2>
+
+<form [formGroup]="clienteForm" (ngSubmit)="guardarCliente()" class="form">
+
+  <label>Nombre</label>
+  <input formControlName="nombre" type="text">
+
+  <label>Email</label>
+  <input formControlName="email" type="email">
+
+  <label>Teléfono</label>
+  <input formControlName="telefono" type="text">
+
+  <button type="submit" [disabled]="clienteForm.invalid">
+    Guardar Cliente
+  </button>
+
+</form>
+
+<hr>
+
+<h3>Listado de Clientes</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Teléfono</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let cliente of clientes">
+      <td>{{ cliente.nombre }}</td>
+      <td>{{ cliente.email }}</td>
+      <td>{{ cliente.telefono }}</td>
+    </tr>
+  </tbody>
+</table>
+<mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+
+
