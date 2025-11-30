@@ -27,26 +27,8 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
     System.out.println("========================================");
     System.out.println("\n\n");
     
-    // SOLUCIÓN TEMPORAL: Usuario hardcodeado para que funcione YA
-    if ("admin".equals(username)) {
-      System.out.println("✅ Using HARDCODED admin user");
-      // Usar {noop} para indicar que la contraseña NO está hasheada (TEMPORAL)
-      String password = "{noop}admin123";
-      System.out.println("Password (plain text with {noop}): " + password);
-      
-      return org.springframework.security.core.userdetails.User
-          .withUsername("admin")
-          .password(password) // admin123 SIN hash
-          .authorities("ROLE_ADMIN")
-          .accountExpired(false)
-          .accountLocked(false)
-          .credentialsExpired(false)
-          .disabled(false)
-          .build();
-    }
-    
-    // Si no es admin, intentar cargar desde BD
-    System.out.println("=== DEBUG: Loading user: " + username);
+    // Cargar usuario desde la base de datos
+    System.out.println("=== DEBUG: Loading user from database: " + username);
     
     AppUser appUser = appUserRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username)));
